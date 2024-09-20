@@ -12,6 +12,7 @@ Route::group([
     'middleware'    => config('admin.route.middleware'),
     'as'            => config('admin.route.prefix') . '.',
 ], function (Router $router) {
+    $router->get("", [CustomerController::class, "index"]);
     $router->resource("customer", CustomerController::class);
     $router->resource("data", DataController::class);
 });
