@@ -19,6 +19,27 @@ class WeixinService extends BaseService {
         return Cache::get(static::$tokenCacheKey);
     }
 
+    public function codeToSession($code)
+    {
+        $token = $this->getToken();
+        $url = "https://api.weixin.qq.com/sns/jscode2session";
+        
+        $client = new \GuzzleHttp\Client();
+        $response = $client->request("GET", $url, [
+            'query' => [
+                'appid' => env('NIUNIU_APID'),
+                'secret' => env('NIUNIU_SECRET'),
+                'js_code' => $code,
+                'grant_type' => 'authorization_code',
+            ]
+        ]);
+        $res = json_decode($response->getBody());
+        if (empty($res) || $res['code'] != 0) {
+            throw new BizException("微信登录校验失败" . ($res['message'] ?? ''));
+        }
+        return $res;
+    }
+
     public function refreshToken() {
         $url = sprintf("https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=%s&secret=%s", env("HEALTH_APPID"), env("HEALTH_SECRET"));
         $data = json_decode(file_get_contents($url), true);
