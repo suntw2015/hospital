@@ -34,7 +34,10 @@ class OrderService extends BaseService
             'user_id'   => Auth::id(),
             'status'    => CommonEnum::NOTMAL,
             'operate_date'  => Carbon::today()->format("Y-m-d")
-        ])->with('materials')->get()->toArray();
+        ])->with('materials')
+        ->orderByDesc('operate_date')
+        ->orderByDesc('id')
+        ->get()->toArray();
         
         return $this->formatList($orderList);
     }
@@ -44,7 +47,10 @@ class OrderService extends BaseService
         $orderList = Order::where([
             'user_id'   => Auth::id(),
             'status'    => CommonEnum::NOTMAL,
-        ])->with('materials')->get();
+        ])->with('materials')
+        ->orderByDesc('operate_date')
+        ->orderByDesc('id')
+        ->get();
         
         return $this->formatList($orderList);
     }
