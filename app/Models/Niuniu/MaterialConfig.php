@@ -7,17 +7,14 @@ use Illuminate\Database\Eloquent\Model;
 
 class MaterialConfig extends Model
 {
-    use HasFactory;
-
-    protected $connection = 'niuniu';
-
-    protected $table = 'material_config';
+    protected $table = 'niuniu_material_config';
 
     public $timestamps = false;
 
     protected $fillable = [
         'type',
         'name',
+        'short_name',
         'brand',
         'unit_price',
         'status'

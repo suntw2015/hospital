@@ -57,9 +57,8 @@ class ExceptionHandler
                 $statusCode = ResultCodeEnum::PARAM_ILLEGAL_CODE;
                 $msg = array_values($e->errors())[0][0];
             } else if ($e instanceof HttpException) {
-                Log::error($e->getMessage());
-                $httpCode = $e->getStatusCode() ? (string)$e->getStatusCode() : '0';
-                $msg = $statusCode;
+                $msg = $e->getMessage();
+                return response('', $e->getStatusCode());
             } else if ($e instanceof BizException) {
                 Log::error($e->getMessage());
                 $statusCode = $e->getCode();

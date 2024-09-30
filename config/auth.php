@@ -40,6 +40,10 @@ return [
             'driver' => 'session',
             'provider' => 'users',
         ],
+        'miniProgram' => [
+            'driver' => 'weixin',
+            'provider' => 'weixin_user',
+        ]
     ],
 
     /*
@@ -63,6 +67,10 @@ return [
         'users' => [
             'driver' => 'eloquent',
             'model' => env('AUTH_MODEL', App\Models\User::class),
+        ],
+        'weixin_user' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\Niuniu\User::class,
         ],
 
         // 'users' => [

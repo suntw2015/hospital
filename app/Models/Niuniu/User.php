@@ -3,12 +3,11 @@
 namespace App\Models\Niuniu;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class User extends Model
+class User extends Authenticatable
 {
-    protected $connection = 'niuniu';
-
-    protected $table = 'niuniu_user';
+    protected $table = 'wx_user';
 
     public $timestamps = false;
 
@@ -18,9 +17,10 @@ class User extends Model
         'avatar',
         'open_id',
         'union_id',
-        'session_key',
         'token',
+        'token_expire',
         'password',
-        'status'
+        'status',
+        'delete_status'
     ];
 }

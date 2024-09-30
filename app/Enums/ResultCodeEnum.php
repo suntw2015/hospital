@@ -10,6 +10,9 @@ enum ResultCodeEnum
     const UNAUTHENTICATED_CODE = 4001;
     const UNAUTHENTICATED_PHRASE = '暂未登录或token已经过期';
 
+    const AUTH_PENDING_AUDIT_CODE = 4002;
+    const AUTH_PENDING_AUDIT_CODE_PHRASE = '等待审核权限';
+
     const PERMISSION_DENIED_CODE = 4003;
     const PERMISSION_DENIED_PHRASE = '没有相关权限';
 

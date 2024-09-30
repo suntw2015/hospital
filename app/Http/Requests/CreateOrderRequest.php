@@ -36,10 +36,12 @@ class CreateOrderRequest extends BaseRequest
         return [
             'name' => 'required',
             'age'  => 'required|int|min:10',
-            'sex' => 'required|int|in:0,1',
-            'doctor' => 'required',
-            'followUserName' => 'required',
-            'material' => 'required|array',
+            'sex' => 'required|int|in:1,2',
+            'doctors' => 'required',
+            'follows' => 'required',
+            'materials' => 'required|array',
+            'in_no'      => 'required|string',
+            'operate_date'  => 'required|string',
         ];
     }
 }

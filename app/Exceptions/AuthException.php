@@ -7,5 +7,5 @@ use Exception;
 
 class AuthException extends Exception {
     
-    protected $code = ResultCodeEnum::UNAUTHENTICATED_CODE;
+    
 }

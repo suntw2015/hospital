@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Enums\ResultCodeEnum;
 use App\Exceptions\BizException;
 use Illuminate\Support\Facades\Cache;
 use PhpParser\Node\Expr\Cast\Object_;
@@ -33,9 +34,10 @@ class WeixinService extends BaseService {
                 'grant_type' => 'authorization_code',
             ]
         ]);
-        $res = json_decode($response->getBody());
-        if (empty($res) || $res['code'] != 0) {
-            throw new BizException("微信登录校验失败" . ($res['message'] ?? ''));
+        $res = json_decode($response->getBody(), true);
+        if (empty($res) || !isset($res['openid'])) {
+            $msg = sprintf("微信登录校验失败 code: %s, msg:%s", $res['errcode'] ?? '', $res['errmsg'] ?? '');
+            throw new BizException($msg, ResultCodeEnum::UNAUTHENTICATED_CODE);
         }
         return $res;
     }
