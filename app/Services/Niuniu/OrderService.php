@@ -87,6 +87,7 @@ class OrderService extends BaseService
             }
 
             $config = $marerialConfig[$material['id']];
+            $totalPrice += $config['unit_price'] * $material['count'];
             OrderMaterial::create([
                 'order_id'      => $order->id,
                 'material_id'   => $material['id'],
