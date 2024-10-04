@@ -195,4 +195,44 @@ class OrderService extends BaseService
             'list' => $res,
         ];
     }
+
+    public function exportList($startDate, $endDate, $userIds, $type)
+    {
+        $orderList = Order::where([
+            ['operate_date', '>=', $startDate],
+            ['operate_date', '<=', $endDate],
+            ['status', '=', CommonEnum::NOTMAL],
+        ])->whereIn('user_id', $userIds)->with('materials')
+        ->orderByDesc('operate_date')
+        ->orderByDesc('id')
+        ->get();
+        
+        $orders = $this->formatList($orderList)['list'];
+        $result = [];
+        $index = 1;
+        foreach ($orders as $order) {
+            foreach ($order['materials'] as $material) {
+                if ($material['type'] == $type) {
+                    $result[] = [
+                        'index'     => $index++,
+                        'operate_date'  => $order['operate_date'],
+                        'name'          => $order['name'],
+                        'in_no'         => $order['in_no'],
+                        'sex'           => $order['sexText'],
+                        'age'           => $order['age'],
+                        'doctors'       => implode(",",$order['doctors']),
+                        'material_name' => $material['name'],
+                        'material_price'=> $material['total_price'],
+                        'material_brand'=> $material['brand'],
+                        'remark'        => '本院',
+                        'ticket_price'  => '',
+                        'follows'       => implode(",",$order['follows']),
+                        'yeji'          => '',
+                    ];
+                }
+            }
+        }
+
+        return $result;
+    }
 }
