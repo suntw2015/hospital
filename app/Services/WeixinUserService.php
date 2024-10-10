@@ -64,7 +64,7 @@ class WeixinUserService extends BaseService
                     'source' => $source,
                     'token' => $this->generateToken($wxUser['openid']),
                     'token_expire' => time() + 3600*24*365,
-                    'status' => UserStatusEnum::PENDING_AUDIT,
+                    'status' => UserStatusEnum::NOTMAL,
                 ]);
             }
             //校验过期
