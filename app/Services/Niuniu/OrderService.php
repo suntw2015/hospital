@@ -82,11 +82,11 @@ class OrderService extends BaseService
         $totalPrice = 0;
         $marerialConfig = $this->marerialService->getConfigMap();
         foreach ($params['materials'] as $material) {
-            if (!isset($marerialConfig[$material['id']])) {
+            if (!isset($marerialConfig[$material['material_id']])) {
                 throw new BizException("商品已下架", ResultCodeEnum::BUSINESS_ERROR_CODE);
             }
 
-            $config = $marerialConfig[$material['id']];
+            $config = $marerialConfig[$material['material_id']];
             $totalPrice += $config['unit_price'] * $material['count'];
             OrderMaterial::create([
                 'order_id'      => $order->id,
