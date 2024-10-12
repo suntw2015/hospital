@@ -172,7 +172,7 @@ class OrderService extends BaseService
                 'doctors'               => explode(",", $order['doctors']),
                 'doctorsText'           => $order['doctors'],
                 'follows'               => explode(",", $order['follows']),
-                'followsText'           => $order['followsText'],
+                'followsText'           => $order['follows'],
                 'total_price'           => $order['total_price'],
                 'status'                => $order['status'],
                 'ctime'                 => $order['ctime'],
