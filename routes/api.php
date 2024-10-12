@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\NiuNiu\ConfigController;
+use App\Http\Controllers\NiuNiu\ExportController;
 use App\Http\Controllers\NiuNiu\MaterialController;
 use App\Http\Controllers\NiuNiu\OrderController;
 use App\Http\Controllers\NiuNiu\UserController;
@@ -19,3 +20,4 @@ Route::middleware('auth:miniProgram')->prefix('niuniu')->group(function () {
 });
 
 Route::post('/weixin/user/login', [UserController::class, 'login']);
+Route::get('/niuniu-export', [ExportController::class, 'export']);
