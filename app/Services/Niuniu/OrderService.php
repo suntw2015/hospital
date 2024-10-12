@@ -32,7 +32,7 @@ class OrderService extends BaseService
     {
         $orderList = Order::where([
             'user_id'   => Auth::id(),
-            'status'    => CommonEnum::NOTMAL,
+            'delete_status'    => CommonEnum::NOTMAL,
             'operate_date'  => Carbon::today()->format("Y-m-d")
         ])->with('materials')
         ->orderByDesc('operate_date')
@@ -46,7 +46,7 @@ class OrderService extends BaseService
     {
         $orderList = Order::where([
             'user_id'   => Auth::id(),
-            'status'    => CommonEnum::NOTMAL,
+            'delete_status'    => CommonEnum::NOTMAL,
         ])->with('materials')
         ->orderByDesc('operate_date')
         ->orderByDesc('id')
@@ -60,7 +60,7 @@ class OrderService extends BaseService
         $order = Order::where([
             'id'        => $id,
             'user_id'   => Auth::id(),
-            'status'    => CommonEnum::NOTMAL,
+            'delete_status'    => CommonEnum::NOTMAL,
         ])->with('materials')->first();
         
         return $this->format($order);
