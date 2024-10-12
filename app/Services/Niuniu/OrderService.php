@@ -115,35 +115,24 @@ class OrderService extends BaseService
 
         $totalPrice = 0;
         $marerialConfig = $this->marerialService->getConfigMap();
+        OrderMaterial::where('order_id', $params['id'])->delete();
+        
         foreach ($params['materials'] as $material) {
             if (!isset($marerialConfig[$material['material_id']])) {
                 throw new BizException("商品已下架", ResultCodeEnum::BUSINESS_ERROR_CODE);
             }
             $config = $marerialConfig[$material['material_id']];
             $totalPrice += $config['unit_price'] * $material['count'];
-            if (empty($material['id'])) {
-                OrderMaterial::create([
-                    'order_id'      => $order->id,
-                    'material_id'   => $material['material_id'],
-                    'count'         => $material['count'],
-                    'brand'         => $config['brand'],
-                    'name'          => $config['name'],
-                    'unit_price'    => $config['unit_price'],
-                    'type' => $config['type'],
-                    'total_price'   => $config['unit_price'] * $material['count'],
-                ]);
-            } else {
-                OrderMaterial::where('id', $material['id'])
-                ->update([
-                    'material_id'   => $material['material_id'],
-                    'count'         => $material['count'],
-                    'brand'         => $config['brand'],
-                    'name'          => $config['name'],
-                    'unit_price'    => $config['unit_price'],
-                    'type'          => $config['type'],
-                    'total_price'   => $config['unit_price'] * $material['count'],
-                ]);
-            }
+            OrderMaterial::create([
+                'order_id'      => $order->id,
+                'material_id'   => $material['material_id'],
+                'count'         => $material['count'],
+                'brand'         => $config['brand'],
+                'name'          => $config['name'],
+                'unit_price'    => $config['unit_price'],
+                'type' => $config['type'],
+                'total_price'   => $config['unit_price'] * $material['count'],
+            ]);
         }
 
         $order = Order::find($params['id']);
