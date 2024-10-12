@@ -29,8 +29,9 @@ class ExportController extends Controller
         if ($token != 'loveniuniu') {
             return $this->success("hello");
         }
+        $fileName = sprintf("%s月业绩.xlsx", $params['month']);
         
         $userIds = [2];
-        return Excel::download(new NiuniuOrderExport($params['month'], $params['start'], $params['end'], $userIds), 'users.xlsx');
+        return Excel::download(new NiuniuOrderExport($params['month'], $params['start'], $params['end'], $userIds), $fileName);
     }
 }
