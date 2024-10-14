@@ -97,6 +97,7 @@ class OrderService extends BaseService
                 'unit_price'    => $config['unit_price'],
                 'type' => $config['type'],
                 'total_price'   => $config['unit_price'] * $material['count'],
+                'model'        => $material['model'] ?? '',
                 'user_id'=> Auth::id(),
             ]);
         }
@@ -130,6 +131,7 @@ class OrderService extends BaseService
                 'brand'         => $config['brand'],
                 'name'          => $config['name'],
                 'unit_price'    => $config['unit_price'],
+                'model'         => $material['model'] ?? '',
                 'type' => $config['type'],
                 'total_price'   => $config['unit_price'] * $material['count'],
             ]);

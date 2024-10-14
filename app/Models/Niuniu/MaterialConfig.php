@@ -17,6 +17,8 @@ class MaterialConfig extends Model
         'short_name',
         'brand',
         'unit_price',
-        'status'
+        'status',
+        'delete_status',
+        'has_model',
     ];
 }
