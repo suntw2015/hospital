@@ -59,7 +59,7 @@ class OrderService extends BaseService
             $keyword = $params['keyword'];
             $query->where(function ($q) use ($keyword) {  
                 $q->where('name', 'like', '%' . $keyword . '%')  
-                      ->orWhere('remark', 'like', '%' . $keyword . '%');  
+                      ->orWhere('in_no', 'like', '%' . $keyword . '%');  
             });
         }
 
