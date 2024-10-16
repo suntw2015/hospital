@@ -73,8 +73,6 @@ class OrderService extends BaseService
 
     private function getDateRange($range)
     {
-        Carbon::setWeekStartsAt(Carbon::MONDAY);  
-        Carbon::setWeekEndsAt(Carbon::SUNDAY); 
         $today = Carbon::now();
         $start = "";
         $end = "";
@@ -83,8 +81,8 @@ class OrderService extends BaseService
             $start = $today->toDateString();
             $end = $today->toDateString();
         } else if ($range == "week") {
-            $start = $today->startOfWeek()->toDateString();
-            $end = $today->startOfWeek()->toDateString();
+            $start = $today->startOfWeek(Carbon::MONDAY)->toDateString();
+            $end = $today->startOfWeek(Carbon::SUNDAY)->toDateString();
         } else if ($range == "month") {
             $start = $today->startOfMonth()->toDateString();
             $end = $today->startOfMonth()->toDateString();
