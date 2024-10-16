@@ -42,17 +42,55 @@ class OrderService extends BaseService
         return $this->formatList($orderList);
     }
 
-    public function list($prams)
+    public function list($params)
     {
-        $orderList = Order::where([
+        $conditions = [
             'user_id'   => Auth::id(),
             'delete_status'    => CommonEnum::NOTMAL,
-        ])->with('materials')
+        ];
+        if (!empty($params['range'])) {
+            list($start, $end) = $this->getDateRange($params['range']);
+            $conditions[] = ['operate_date', '>=', $start];
+            $conditions[] = ['operate_date', '<=', $end];
+        }
+        $query = Order::where($conditions);
+
+        if (!empty($params['keyword'])) {
+            $keyword = $params['keyword'];
+            $query->where(function ($q) use ($keyword) {  
+                $q->where('name', 'like', '%' . $keyword . '%')  
+                      ->orWhere('remark', 'like', '%' . $keyword . '%');  
+            });
+        }
+
+        $orderList = $query->with('materials')
         ->orderByDesc('operate_date')
         ->orderByDesc('id')
         ->get();
         
         return $this->formatList($orderList);
+    }
+
+    private function getDateRange($range)
+    {
+        Carbon::setWeekStartsAt(Carbon::MONDAY);  
+        Carbon::setWeekEndsAt(Carbon::SUNDAY); 
+        $today = Carbon::now();
+        $start = "";
+        $end = "";
+
+        if ($range == "today") {
+            $start = $today->toDateString();
+            $end = $today->toDateString();
+        } else if ($range == "week") {
+            $start = $today->startOfWeek()->toDateString();
+            $end = $today->startOfWeek()->toDateString();
+        } else if ($range == "month") {
+            $start = $today->startOfMonth()->toDateString();
+            $end = $today->startOfMonth()->toDateString();
+        }
+
+        return [$start, $end];
     }
 
     public function detail($id)

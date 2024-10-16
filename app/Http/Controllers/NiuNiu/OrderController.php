@@ -6,6 +6,7 @@ use App\Exceptions\BizException;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CreateOrderRequest;
 use App\Http\Requests\Niuniu\OrderDetailRequest;
+use App\Http\Requests\Niuniu\OrderListRequest;
 use App\Http\Requests\UpdateOrderRequest;
 use App\Models\MaterialConfig;
 use App\Services\Niuniu\OrderService;
@@ -27,9 +28,10 @@ class OrderController extends Controller
         return $this->success($res);
     }
 
-    public function list(Request $request)
+    public function list(OrderListRequest $request)
     {
-        $res = $this->orderService->list([]);
+        $params = $request->validated();
+        $res = $this->orderService->list($params);
         return $this->success($res);
     }
 
