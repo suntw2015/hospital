@@ -82,10 +82,10 @@ class OrderService extends BaseService
             $end = $today->toDateString();
         } else if ($range == "week") {
             $start = $today->startOfWeek(Carbon::MONDAY)->toDateString();
-            $end = $today->startOfWeek(Carbon::SUNDAY)->toDateString();
+            $end = $today->endOfWeek(Carbon::SUNDAY)->toDateString();
         } else if ($range == "month") {
             $start = $today->startOfMonth()->toDateString();
-            $end = $today->startOfMonth()->toDateString();
+            $end = $today->endOfMonth()->toDateString();
         }
 
         return [$start, $end];
