@@ -31,6 +31,6 @@ class ExportNiuniuOrder extends Command
         $startDate = '2024-01-01';
         $endDate = '2024-01-31';
         $userIds = [1,2];
-        return Excel::store(new NiuniuOrderExport($month, $startDate, $endDate, $userIds), 'users.xlsx');
+        return Excel::store(new NiuniuOrderExport($startDate, $endDate, $userIds), 'users.xlsx');
     }
 }

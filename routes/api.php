@@ -17,6 +17,7 @@ Route::middleware('auth:miniProgram')->prefix('niuniu')->group(function () {
     Route::get('order/detail', [OrderController::class, 'detail']);
     Route::post('order/create', [OrderController::class, 'create']);
     Route::post('order/update', [OrderController::class, 'update']);
+    Route::post('order/export', [OrderController::class, 'export']);
 });
 
 Route::post('/weixin/user/login', [UserController::class, 'login']);

@@ -16,9 +16,8 @@ class NiuniuOrderExport implements WithMultipleSheets
     private $endDate;
     private $userIds;
 
-    public function __construct($month, $startDate, $endDate, $userIds)
+    public function __construct($startDate, $endDate, $userIds)
     {
-        $this->month = $month;
         $this->startDate = $startDate;
         $this->endDate = $endDate;
         $this->userIds = $userIds;
@@ -27,8 +26,8 @@ class NiuniuOrderExport implements WithMultipleSheets
     public function sheets(): array
     {
         $sheets = [];
-        $sheets[] = new DailiangSheet($this->month, $this->startDate, $this->endDate, $this->userIds);
-        $sheets[] = new NoDailiangSheet($this->month, $this->startDate, $this->endDate, $this->userIds);
+        $sheets[] = new DailiangSheet($this->startDate, $this->endDate, $this->userIds);
+        $sheets[] = new NoDailiangSheet($this->startDate, $this->endDate, $this->userIds);
 
         return $sheets;
     }

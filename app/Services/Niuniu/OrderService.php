@@ -71,7 +71,7 @@ class OrderService extends BaseService
         return $this->formatList($orderList);
     }
 
-    private function getDateRange($range)
+    public function getDateRange($range)
     {
         $today = Carbon::now();
         $start = "";
@@ -145,9 +145,16 @@ class OrderService extends BaseService
 
     public function update($params)
     {
-        $order = Order::find($params['id']);
+        $order = Order::where([
+            'id' => $params['id'],
+            'delete_status' => CommonEnum::NOTMAL
+        ])->first();
         if (empty($order)) {
             throw new BizException("无效订单", ResultCodeEnum::BUSINESS_ERROR_CODE);
+        }
+
+        if ($order->user_id != Auth::id()) {
+            throw new BizException("非法修改", ResultCodeEnum::BUSINESS_ERROR_CODE);
         }
 
         $totalPrice = 0;
@@ -183,8 +190,24 @@ class OrderService extends BaseService
         $order->follows = $params['follows'];
         $order->total_price = $totalPrice;
         $order->save();
+    }
 
+    public function delete($orderId)
+    {
+        $order = Order::where([
+            'id' => $orderId,
+            'delete_status' => CommonEnum::NOTMAL
+        ])->first();
+        if (empty($order)) {
+            throw new BizException("无效订单", ResultCodeEnum::BUSINESS_ERROR_CODE);
+        }
 
+        if ($order->user_id != Auth::id()) {
+            throw new BizException("非法修改", ResultCodeEnum::BUSINESS_ERROR_CODE);
+        }
+
+        $order->delete_status = CommonEnum::DELETE;
+        $order->save();
     }
 
     public function format($order)
@@ -230,8 +253,8 @@ class OrderService extends BaseService
             ['operate_date', '<=', $endDate],
             ['status', '=', CommonEnum::NOTMAL],
         ])->whereIn('user_id', $userIds)->with('materials')
-        ->orderByDesc('operate_date')
-        ->orderByDesc('id')
+        ->orderBy('operate_date')
+        ->orderBy('id')
         ->get();
         
         $orders = $this->formatList($orderList)['list'];

@@ -17,9 +17,8 @@ class DailiangSheet implements FromArray, WithTitle, WithHeadings, WithColumnFor
     private $userIds;
     private $orderService;
 
-    public function __construct($month, $startDate, $endDate, $userIds)
+    public function __construct($startDate, $endDate, $userIds)
     {
-        $this->month = $month;
         $this->startDate = $startDate;
         $this->endDate = $endDate;
         $this->userIds = $userIds;
@@ -35,7 +34,7 @@ class DailiangSheet implements FromArray, WithTitle, WithHeadings, WithColumnFor
      */
     public function title(): string
     {
-        return $this->month.'月带量产品';
+        return '带量产品';
     }
 
     public function headings(): array

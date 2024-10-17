@@ -17,9 +17,8 @@ class NoDailiangSheet implements FromArray, WithTitle, WithColumnFormatting, Wit
     private $userIds;
     private $orderService;
 
-    public function __construct($month, $startDate, $endDate, $userIds)
+    public function __construct($startDate, $endDate, $userIds)
     {
-        $this->month = $month;
         $this->startDate = $startDate;
         $this->endDate = $endDate;
         $this->userIds = $userIds;
@@ -36,7 +35,7 @@ class NoDailiangSheet implements FromArray, WithTitle, WithColumnFormatting, Wit
      */
     public function title(): string
     {
-        return $this->month.'月非带量产品';
+        return '非带量产品';
     }
 
     public function headings(): array
