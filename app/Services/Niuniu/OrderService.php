@@ -255,7 +255,9 @@ class OrderService extends BaseService
         $result = [];
         foreach ($materials as $material) {
             if (!empty($material['model'])) {
-                $material['name'] = $material['name'] . "-" . $material['model'];
+                $material['showName'] = $material['name'] . "-" . $material['model'];
+            } else {
+                $material['showName'] = $material['name'];
             }
 
             $result[] = $material;
@@ -268,10 +270,7 @@ class OrderService extends BaseService
     {
         $materialText = [];
         foreach ($order['materials'] as $item) {
-            $text = $item['name'];
-            if (!empty($item['model'])) {
-                $text .= "-" . $item['model'];
-            }
+            $text = $item['showName'];
             $text .= $item['count'] . "个";
             if (!empty($item['batch'])) {
                 $text .= sprintf("(批号 %s)", $item['model']);
