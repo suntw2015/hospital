@@ -223,6 +223,7 @@ class OrderService extends BaseService
         $totalPrice = 0;
         foreach ($orderList as $order) {
             $totalPrice += $order['total_price'];
+            $materials = $order['materials'];
             $res[] = [
                 'id'                    => $order['id'],
                 'name'                  => $order['name'],
@@ -239,7 +240,7 @@ class OrderService extends BaseService
                 'total_price'           => $order['total_price'],
                 'status'                => $order['status'],
                 'ctime'                 => $order['ctime'],
-                'materials'             => $order['materials'],
+                'materials'             => $this->formatMaterial($order['materials']),
                 'shareText'             => $this->buildShareText($order),
             ];
         }
@@ -247,6 +248,20 @@ class OrderService extends BaseService
             'totalPrice' => $totalPrice,
             'list' => $res,
         ];
+    }
+
+    private function formatMaterial($materials)
+    {
+        $result = [];
+        foreach ($materials as $material) {
+            if (!empty($material['model'])) {
+                $material['name'] = $material['name'] . "-" . $material['model'];
+            }
+
+            $result[] = $material;
+        }
+
+        return $result;
     }
 
     private function buildShareText($order)
