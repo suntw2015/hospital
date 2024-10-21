@@ -255,7 +255,7 @@ class OrderService extends BaseService
         foreach ($order['materials'] as $item) {
             $text = $item['name'];
             if (!empty($item['batch'])) {
-                $text .= "-" + $item['batch'];
+                $text .= "-" . $item['batch'];
             }
             $text .= $item['count'] . "个";
             if (!empty($item['model'])) {
