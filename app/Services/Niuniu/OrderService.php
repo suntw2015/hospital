@@ -134,6 +134,7 @@ class OrderService extends BaseService
                 'type' => $config['type'],
                 'total_price'   => $config['unit_price'] * $material['count'],
                 'model'        => $material['model'] ?? '',
+                'batch'        => $material['batch'] ?? '',
                 'user_id'=> Auth::id(),
             ]);
         }
@@ -175,6 +176,7 @@ class OrderService extends BaseService
                 'name'          => $config['name'],
                 'unit_price'    => $config['unit_price'],
                 'model'         => $material['model'] ?? '',
+                'batch'         => $material['batch'] ?? '',
                 'type' => $config['type'],
                 'total_price'   => $config['unit_price'] * $material['count'],
             ]);
@@ -237,13 +239,42 @@ class OrderService extends BaseService
                 'total_price'           => $order['total_price'],
                 'status'                => $order['status'],
                 'ctime'                 => $order['ctime'],
-                'materials'             => $order['materials']
+                'materials'             => $order['materials'],
+                'shareText'             => $this->buildShareText($order),
             ];
         }
         return [
             'totalPrice' => $totalPrice,
             'list' => $res,
         ];
+    }
+
+    private function buildShareText($order)
+    {
+        $materialText = [];
+        foreach ($order['materials'] as $item) {
+            $text = $item['name'];
+            if (!empty($item['batch'])) {
+                $text .= "-" + $item['batch'];
+            }
+            $text .= $item['count'] . "个";
+            if (!empty($item['model'])) {
+                $text .= sprintf("(批号 %s)", $item['model']);
+            }
+            $materialText[] = $text;
+        }
+        $materialText = implode(";", $materialText);
+
+        $text = sprintf("医院：721
+科室：骨科
+手术日期：%s
+病人：%s %s %s岁
+使用数量: %s
+住院号: %s
+医生: %s
+跟台: %s
+收费：%s", $order['operate_date'], $order['name'], SexEnum::getText($order['sex']), $order['age'], $materialText, $order['in_no'], $order['doctors'], $order['follows'], $order['total_price']);
+        return $text;
     }
 
     public function exportList($startDate, $endDate, $userIds, $type)

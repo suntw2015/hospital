@@ -22,6 +22,7 @@ class OrderMaterial extends Model
         'total_price',
         'status',
         'model',
+        'batch',
         'create_user_id',
         'create_user_name'
     ];

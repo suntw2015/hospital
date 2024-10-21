@@ -20,5 +20,6 @@ class MaterialConfig extends Model
         'status',
         'delete_status',
         'has_model',
+        'has_batch',
     ];
 }
