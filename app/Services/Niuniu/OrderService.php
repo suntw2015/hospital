@@ -269,11 +269,11 @@ class OrderService extends BaseService
         $materialText = [];
         foreach ($order['materials'] as $item) {
             $text = $item['name'];
-            if (!empty($item['batch'])) {
-                $text .= "-" . $item['batch'];
+            if (!empty($item['model'])) {
+                $text .= "-" . $item['model'];
             }
             $text .= $item['count'] . "个";
-            if (!empty($item['model'])) {
+            if (!empty($item['batch'])) {
                 $text .= sprintf("(批号 %s)", $item['model']);
             }
             $materialText[] = $text;
