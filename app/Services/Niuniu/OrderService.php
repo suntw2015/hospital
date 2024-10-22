@@ -273,7 +273,7 @@ class OrderService extends BaseService
             $text = $item['showName'];
             $text .= $item['count'] . "个";
             if (!empty($item['batch'])) {
-                $text .= sprintf("(批号 %s)", $item['model']);
+                $text .= sprintf("(批号 %s)", $item['batch']);
             }
             $materialText[] = $text;
         }
